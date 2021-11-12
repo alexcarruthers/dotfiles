@@ -1,6 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.bin:$PATH
+export PATH="/usr/local/bin:${PATH}"
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/alex/.oh-my-zsh"
@@ -120,9 +121,6 @@ function chpwd() {
   fi
 }
 
-source /usr/local/share/zsh/site-functions/_aws
-
-
 if [ $UID -eq 0 ]; then NCOLOR="red"; else NCOLOR="green"; fi
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 
@@ -140,12 +138,34 @@ eval my_gray='$FG[237]'
 eval my_orange='$FG[214]'
 
 # right prompt
-if type "virtualenv_prompt_info" > /dev/null
-then
-        RPROMPT='$(virtualenv_prompt_info)$my_gray%D{%Y-%m-%d} %* %n@%m%{$reset_color%}%'
-else
-        RPROMPT='$my_gray%D{%Y-%m-%d} %* %n@%m%{$reset_color%}%'
-fi
+function preexec() {
+  timer=$(($(print -P %D{%s%6.})/1000))
+}
+
+function precmd() {
+  if type "virtualenv_prompt_info" > /dev/null
+  then
+    RPROMPT='$(virtualenv_prompt_info)'
+  fi
+  if [ $timer ]; then
+    local now=$(($(print -P %D{%s%6.})/1000))
+    local d_ms=$(($now-$timer))
+    local d_s=$((d_ms / 1000))
+    local ms=$((d_ms % 1000))
+    local s=$((d_s % 60))
+    local m=$(((d_s / 60) % 60))
+    local h=$((d_s / 3600))
+    if ((h > 0)); then elapsed=${h}h${m}m
+    elif ((m > 0)); then elapsed=${m}m${s}s
+    elif ((s >= 10)); then elapsed=${s}.$((ms / 100))s
+    elif ((s > 0)); then elapsed=${s}.$((ms / 10))s
+    else elapsed=${ms}ms
+    fi    
+
+    export RPROMPT="$RPROMPT %F{cyan}${elapsed} %{$reset_color%}"
+    unset timer
+  fi
+}
 
 # git settings
 ZSH_THEME_GIT_PROMPT_PREFIX="$FG[075](branch:"
@@ -153,18 +173,9 @@ ZSH_THEME_GIT_PROMPT_CLEAN=""
 ZSH_THEME_GIT_PROMPT_DIRTY="$my_orange*%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="$FG[075])%{$reset_color%}"
 
-
-export PATH="/usr/local/opt/mysql@5.6/bin:$PATH"
-export PATH=$PATH:~/go/bin
-export GOPATH=$HOME/go
-
 export PIPENV_VENV_IN_PROJECT=1
-
-export PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
 
 export PATH="/usr/local/opt/openssl/bin:$PATH"
 
-eval $(thefuck --alias)
-
-export PYENV_ROOT=~/.pyenv
-eval "$(pyenv init -)"
+# eval "$(ssh-agent -s)"
+grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add -q
