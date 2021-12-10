@@ -170,8 +170,8 @@ function precmd() {
 # git settings
 ZSH_THEME_GIT_PROMPT_PREFIX="$FG[075](branch:"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_DIRTY="$my_orange*%!{(MISSING)$reset_color%!}(MISSING)"
-ZSH_THEME_GIT_PROMPT_SUFFIX="$FG[075])%!{(MISSING)$reset_color%!}(MISSING)"
+ZSH_THEME_GIT_PROMPT_DIRTY="$my_orange*%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="$FG[075])%{$reset_color%}"
 
 export PIPENV_VENV_IN_PROJECT=1
 
