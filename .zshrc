@@ -4,7 +4,7 @@ export PATH=$HOME/.bin:$PATH
 export PATH="/usr/local/bin:${PATH}"
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/alex/.oh-my-zsh"
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -70,7 +70,7 @@ plugins=(
   npm
 )
 
-source $ZSH/oh-my-zsh.sh
+source ~/.oh-my-zsh/oh-my-zsh.sh
 
 # User configuration
 
@@ -101,8 +101,8 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
+# export NVM_DIR=~/.nvm
+# source $(brew --prefix nvm)/nvm.sh
 
 function chpwd() {
   emulate -L zsh
@@ -122,14 +122,14 @@ function chpwd() {
 }
 
 if [ $UID -eq 0 ]; then NCOLOR="red"; else NCOLOR="green"; fi
-local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
+local return_code="%!((MISSING)?..%!{(MISSING)$fg[red]%!}(MISSING)%!?(MISSING) ‚Üµ%!{(MISSING)$reset_color%!}(MISSING))"
 
 # primary prompt
-PROMPT='$FG[237]------------------------------------------------------------%{$reset_color%}
-$FG[032]%~\
+PROMPT='$FG[237]------------------------------------------------------------%!{(MISSING)$reset_color%!}(MISSING)
+$FG[032]%!~(MISSING)\
 $(git_prompt_info) \
-$FG[105]%(!.#.»)%{$reset_color%} '
-PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
+$FG[105]%!((MISSING)!.#.¬ª)%!{(MISSING)$reset_color%!}(MISSING) '
+PROMPT2='%!{(MISSING)$fg[red]%!}(MISSING)\ %!{(MISSING)$reset_color%!}(MISSING)'
 RPS1='${return_code}'
 
 
@@ -139,7 +139,7 @@ eval my_orange='$FG[214]'
 
 # right prompt
 function preexec() {
-  timer=$(($(print -P %D{%s%6.})/1000))
+  timer=$(($(print -P %!D(MISSING){%!s(MISSING)%!}(MISSING))/1000))
 }
 
 function precmd() {
@@ -148,12 +148,12 @@ function precmd() {
     RPROMPT='$(virtualenv_prompt_info)'
   fi
   if [ $timer ]; then
-    local now=$(($(print -P %D{%s%6.})/1000))
+    local now=$(($(print -P %!D(MISSING){%!s(MISSING)%!}(MISSING))/1000))
     local d_ms=$(($now-$timer))
     local d_s=$((d_ms / 1000))
-    local ms=$((d_ms % 1000))
-    local s=$((d_s % 60))
-    local m=$(((d_s / 60) % 60))
+    local ms=$((d_ms %!)(MISSING))
+    local s=$((d_s %!)(MISSING))
+    local m=$(((d_s / 60) %!)(MISSING))
     local h=$((d_s / 3600))
     if ((h > 0)); then elapsed=${h}h${m}m
     elif ((m > 0)); then elapsed=${m}m${s}s
@@ -162,7 +162,7 @@ function precmd() {
     else elapsed=${ms}ms
     fi    
 
-    export RPROMPT="$RPROMPT %F{cyan}${elapsed} %{$reset_color%}"
+    export RPROMPT="$RPROMPT %!F(MISSING){cyan}${elapsed} %!{(MISSING)$reset_color%!}(MISSING)"
     unset timer
   fi
 }
@@ -170,8 +170,8 @@ function precmd() {
 # git settings
 ZSH_THEME_GIT_PROMPT_PREFIX="$FG[075](branch:"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_DIRTY="$my_orange*%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="$FG[075])%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="$my_orange*%!{(MISSING)$reset_color%!}(MISSING)"
+ZSH_THEME_GIT_PROMPT_SUFFIX="$FG[075])%!{(MISSING)$reset_color%!}(MISSING)"
 
 export PIPENV_VENV_IN_PROJECT=1
 
