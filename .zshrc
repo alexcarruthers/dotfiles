@@ -122,14 +122,14 @@ function chpwd() {
 }
 
 if [ $UID -eq 0 ]; then NCOLOR="red"; else NCOLOR="green"; fi
-local return_code="%!((MISSING)?..%!{(MISSING)$fg[red]%!}(MISSING)%!?(MISSING) ‚Üµ%!{(MISSING)$reset_color%!}(MISSING))"
+local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 
 # primary prompt
-PROMPT='$FG[237]------------------------------------------------------------%!{(MISSING)$reset_color%!}(MISSING)
-$FG[032]%!~(MISSING)\
+PROMPT='$FG[237]------------------------------------------------------------%{$reset_color%}
+$FG[032]%~\
 $(git_prompt_info) \
-$FG[105]%!((MISSING)!.#.¬ª)%!{(MISSING)$reset_color%!}(MISSING) '
-PROMPT2='%!{(MISSING)$fg[red]%!}(MISSING)\ %!{(MISSING)$reset_color%!}(MISSING)'
+$FG[105]%(!.#.»)%{$reset_color%} '
+PROMPT2='%{$fg[red]%}\ %{$reset_color%}'
 RPS1='${return_code}'
 
 
@@ -139,7 +139,7 @@ eval my_orange='$FG[214]'
 
 # right prompt
 function preexec() {
-  timer=$(($(print -P %!D(MISSING){%!s(MISSING)%!}(MISSING))/1000))
+  timer=$(($(print -P %D{%s%6.})/1000))
 }
 
 function precmd() {
@@ -148,12 +148,12 @@ function precmd() {
     RPROMPT='$(virtualenv_prompt_info)'
   fi
   if [ $timer ]; then
-    local now=$(($(print -P %!D(MISSING){%!s(MISSING)%!}(MISSING))/1000))
+    local now=$(($(print -P %D{%s%6.})/1000))
     local d_ms=$(($now-$timer))
     local d_s=$((d_ms / 1000))
-    local ms=$((d_ms %!)(MISSING))
-    local s=$((d_s %!)(MISSING))
-    local m=$(((d_s / 60) %!)(MISSING))
+    local ms=$((d_ms % 1000))
+    local s=$((d_s % 60))
+    local m=$(((d_s / 60) % 60))
     local h=$((d_s / 3600))
     if ((h > 0)); then elapsed=${h}h${m}m
     elif ((m > 0)); then elapsed=${m}m${s}s
@@ -162,7 +162,7 @@ function precmd() {
     else elapsed=${ms}ms
     fi    
 
-    export RPROMPT="$RPROMPT %!F(MISSING){cyan}${elapsed} %!{(MISSING)$reset_color%!}(MISSING)"
+    export RPROMPT="$RPROMPT %F{cyan}${elapsed} %{$reset_color%}"
     unset timer
   fi
 }
