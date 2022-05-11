@@ -33,6 +33,11 @@ set backspace=indent,eol,start	" Backspace behaviour
 set mouse=a
 set scrolloff=20
 
+" Automatically save the session when leaving Vim
+autocmd! VimLeave * mksession
+" Automatically load the session when entering vim
+autocmd! VimEnter * source ~/Session.vim
+
 call plug#begin()
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/nerdfont.vim'
@@ -53,8 +58,11 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'doums/darcula'
 Plug 'folke/which-key.nvim'
 Plug 'vim-test/vim-test'
-
+Plug 'fcpg/vim-osc52'
 call plug#end()
+
+" copy configuration
+vmap <C-c> y:Oscyank<cr>:
 
 " Fern configuration
 let g:fern#renderer = "nerdfont"
@@ -135,3 +143,14 @@ nmap <silent> <leader>a :TestSuite<CR>
 nmap <silent> <leader>l :TestLast<CR>
 nmap <silent> <leader>g :TestVisit<CR>
 
+" coc configuration
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
