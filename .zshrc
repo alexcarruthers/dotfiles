@@ -81,9 +81,9 @@ source ~/.oh-my-zsh/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='nano'
+  export EDITOR='nvim'
 else
-  export EDITOR='nano'
+  export EDITOR='nvim'
 fi
 
 # Compilation flags
@@ -177,5 +177,5 @@ export PIPENV_VENV_IN_PROJECT=1
 
 export PATH="/usr/local/opt/openssl/bin:$PATH"
 
-# eval "$(ssh-agent -s)"
+# Automatically add all ssh keys
 grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add -q
