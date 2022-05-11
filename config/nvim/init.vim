@@ -1,5 +1,6 @@
 set nocompatible
 syntax on
+let mapleader=" "
 set encoding=utf-8
 
 set number	" Show line numbers
@@ -50,6 +51,8 @@ Plug 'gabrielelana/vim-markdown'
 Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
 Plug 'doums/darcula'
+Plug 'folke/which-key.nvim'
+Plug 'vim-test/vim-test'
 
 call plug#end()
 
@@ -108,8 +111,27 @@ let g:airline#extensions#branch#vcs_checks = []
 let g:airline#extensions#ale#enabled = 1
 let g:airline_theme='murmur'
 
+" which key configuration
+function WhichKeySetup()
+lua << EOF
+require("which-key").setup {}
+EOF
+endfunction
+
+augroup WhichKeySetup
+    autocmd!
+    autocmd User PlugLoaded call WhichKeySetup()
+augroup END
+
 source ~/.config/nvim/coc_config.vim
 
 set termguicolors
 colorscheme darcula
+
+" vim-test configuration
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
 
