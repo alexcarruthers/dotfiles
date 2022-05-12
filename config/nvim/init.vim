@@ -53,7 +53,10 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'doums/darcula'
 Plug 'folke/which-key.nvim'
 Plug 'vim-test/vim-test'
+Plug '907th/vim-auto-save'
 call plug#end()
+
+let g:auto_save = 1  " enable AutoSave on Vim startup
 
 " Fern configuration
 let g:fern#renderer = "nerdfont"
