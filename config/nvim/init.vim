@@ -33,11 +33,6 @@ set backspace=indent,eol,start	" Backspace behaviour
 set mouse=a
 set scrolloff=20
 
-" Automatically save the session when leaving Vim
-autocmd! VimLeave * mksession
-" Automatically load the session when entering vim
-autocmd! VimEnter * source ~/Session.vim
-
 call plug#begin()
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/nerdfont.vim'

@@ -1,0 +1,18 @@
+{
+  "codeLens.enable": true,
+
+  "diagnostic.errorSign": "●",
+  "diagnostic.hintSign": "☞",
+  "diagnostic.infoSign": "●",
+  "diagnostic.warningSign": "●",
+
+  "languageServer": {
+    "sorbet": {
+      "args": ["tc", "--typed", "true", "--enable-all-experimental-lsp-features", "--lsp", "--disable-watchman"],
+      "command": "srb",
+      "filetypes": ["ruby"],
+      "rootPatterns": ["sorbet/config"]
+    }
+
+  }
+}

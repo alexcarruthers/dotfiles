@@ -101,25 +101,27 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# export NVM_DIR=~/.nvm
-# source $(brew --prefix nvm)/nvm.sh
+if [[ -z $SPIN ]]; then
+  export NVM_DIR=~/.nvm
+  source $(brew --prefix nvm)/nvm.sh
 
-function chpwd() {
-  emulate -L zsh
+  function chpwd() {
+    emulate -L zsh
 
-  # Reset node version var
-  NODE_VERSION=
+    # Reset node version var
+    NODE_VERSION=
 
-  if [[ -f .nvmrc ]] then
-    NODE_VERSION=`cat .nvmrc`
-  elif [[ -f package.json ]] then
-    NODE_VERSION=`cat package.json | jq -r '.engines.node'`
-  fi
+    if [[ -f .nvmrc ]] then
+      NODE_VERSION=`cat .nvmrc`
+    elif [[ -f package.json ]] then
+      NODE_VERSION=`cat package.json | jq -r '.engines.node'`
+    fi
 
-  if [[ -n "$NODE_VERSION" ]] then
-    nvm use "$NODE_VERSION"
-  fi
-}
+    if [[ -n "$NODE_VERSION" ]] then
+      nvm use "$NODE_VERSION"
+    fi
+  }
+fi
 
 if [ $UID -eq 0 ]; then NCOLOR="red"; else NCOLOR="green"; fi
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
