@@ -8,6 +8,7 @@ SCRIPT_DIR=`dirname "$0"`
 echo "Copying rc files"
 cp $SCRIPT_DIR/.zshrc ~/.zshrc
 cp $SCRIPT_DIR/.psqlrc ~/.psqlrc
+cp $SCRIPT_DIR/tmux.conf ~/.tmux.conf
 
 echo "Copying vim configs"
 mkdir -p ~/.config/nvim/
