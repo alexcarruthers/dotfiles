@@ -54,6 +54,7 @@ Plug 'doums/darcula'
 Plug 'folke/which-key.nvim'
 Plug 'vim-test/vim-test'
 Plug '907th/vim-auto-save'
+Plug 'tpope/vim-eunuch'
 call plug#end()
 
 let g:auto_save = 1  " enable AutoSave on Vim startup
